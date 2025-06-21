@@ -1,0 +1,16 @@
+import pandas as pd
+
+def largest_orders(orders: pd.DataFrame) -> pd.DataFrame:
+    # Add a flag = 1 to count each order
+    orders['flag'] = 1
+
+    # Group by customer and count their orders using sum
+    order_counts = orders.groupby('customer_number')['flag'].sum().reset_index()
+
+    # Find the max number of orders
+    max_count = order_counts['flag'].max()
+
+    # Filter customer(s) who made the max number of orders
+    result = order_counts[order_counts['flag'] == max_count][['customer_number']]
+
+    return result
